@@ -1,0 +1,32 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+	http://www.springframework.org/schema/mvc  
+	http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+	http://www.springframework.org/schema/context   
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	"
+	>
+	<!-- 自动代理，其余内容一样，除了自动代理时不�?��配置消息和被代理接口和类 -->
+	
+	<!-- aopHelper,切入内容 -->
+	<bean id="aopHelper" class="com.lcp.aophelper.AopHelper"></bean>
+	
+	<!-- 切入点，�?��时�?进入切面 -->
+	<bean id="aopPointCut" class="org.springframework.aop.support.JdkRegexpMethodPointcut">
+		<property name="pattern" value=".*testAop"/>
+	</bean>
+	
+	<!-- 通知，把切入位置和切入时间连接起�?-->
+	<bean id="aopAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+		<property name="advice" ref="aopHelper"></property>
+		<property name="pointcut" ref="aopPointCut"></property>
+	</bean>
+	
+	 <!-- 自动代理 -->
+	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"></bean>
+	
+</beans>  
